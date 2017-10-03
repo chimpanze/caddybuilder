@@ -17,6 +17,7 @@ import (
 var pwd, buildDir, binDir, caddySourceDir string
 var goos, goarch string
 var plugins pluginsArray
+var dev bool
 
 // var avaiblePlugins bool = false
 
@@ -24,6 +25,7 @@ func init() {
 	flag.StringVar(&goos, "goos", "", "OS for which to build")
 	flag.StringVar(&goarch, "goarch", "", "ARCH for which to build")
 	flag.Var(&plugins, "plugin", "Plugin to integrate in the build")
+	flag.BoolVar(&dev, "dev", false, "Build the current master branch")
 	// TODO
 	//flag.BoolVar(&avaiblePlugins, "listplugins", false, "Display all the available plugins")
 }
@@ -59,18 +61,25 @@ func main() {
 	err = cmd.Run()
 	check(err)
 
-	// Checkout to the last caddy version
-	cmd = exec.Command("git", "describe", "--abbrev=0", "--tags")
-	cmd.Dir = caddySourceDir
-	tag, err := cmd.Output()
-	check(err)
+	// Git checkout to last tagged version
+	// Skip for building the current master branch
+	if !dev {
+		cmd = exec.Command("git", "describe", "--abbrev=0", "--tags")
+		cmd.Dir = caddySourceDir
+		tag, err := cmd.Output()
+		check(err)
 
-	caddyVersion := strings.TrimSpace(string(tag))
+		caddyVersion := strings.TrimSpace(string(tag))
 
-	cmd = exec.Command("git", "checkout", caddyVersion)
-	cmd.Dir = caddySourceDir
-	err = cmd.Run()
-	check(err)
+		cmd = exec.Command("git", "checkout", caddyVersion)
+		cmd.Dir = caddySourceDir
+		err = cmd.Run()
+		check(err)
+
+		fmt.Println("Tag to build: ", caddyVersion)
+	} else {
+		fmt.Println("Branch to build: master")
+	}
 
 	pluginRepos := caddyAvailablePlugins()
 

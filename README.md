@@ -9,9 +9,22 @@ This tool will build Caddy from [source code](https://github.com/mholt/caddy). A
 
 ## Usage
 ```
+  -dev
+        Build the current master branch
+  -goarch string
+        ARCH for which to build
+  -goos string
+        OS for which to build
+  -plugin value
+        Plugin to integrate in the build
+```
+
+## Example
+```
 go run caddybuilder.go -goos linux -goarch amd64 -plugin expires -plugin filemanager
 ```
 
+## Useful info
 You can find the list of compatible plugins [here](https://github.com/mholt/caddy/blob/baf6db5b570e36ea2fee30d50f879255a5895370/caddyhttp/httpserver/plugin.go#L448).
 
 List of GOOS and GOARCH possible values [here](https://github.com/golang/go/blob/master/src/go/build/syslist.go).

@@ -86,8 +86,10 @@ func main() {
 	var selectedPlugins []string
 
 	for _, plugin := range plugins {
-		if pluginRepos[plugin] == "" {
-			fmt.Printf("Plugin %s not found. Run with option -listplugins to see available plugins.\n", plugin)
+		if _, found := pluginRepos[plugin]; !found {
+			// TODO
+			// fmt.Printf("Plugin %s not found. Run with option -listplugins to see available plugins.\n", plugin)
+			fmt.Printf("Plugin %s not found.\n", plugin)
 			os.Exit(0)
 		}
 

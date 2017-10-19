@@ -10,7 +10,7 @@ This tool will build Caddy from [source code](https://github.com/mholt/caddy). A
 ## Usage
 ```
   -dev
-        Build the current master branch
+        Build the master branch instead of the last tagged version
   -goarch string
         ARCH for which to build
   -goos string

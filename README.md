@@ -11,6 +11,8 @@ This tool will build Caddy from [source code](https://github.com/mholt/caddy). A
 ```
   -dev
         Build the master branch instead of the last tagged version
+  -disable-telemetry
+        Disable built-in telemetry
   -goarch string
         ARCH for which to build
   -goos string
@@ -21,10 +23,11 @@ This tool will build Caddy from [source code](https://github.com/mholt/caddy). A
 
 ## Example
 ```
-go run caddybuilder.go -goos linux -goarch amd64 -plugin expires -plugin filemanager
+go run caddybuilder.go -goos linux -goarch amd64 -plugin expires -plugin filemanager -disable-telemetry
 ```
 
 ## Useful info
-You can find the list of compatible plugins [here](https://github.com/mholt/caddy/blob/baf6db5b570e36ea2fee30d50f879255a5895370/caddyhttp/httpserver/plugin.go#L448).
+You can find the list of compatible plugins [here](https://github.com/mholt/caddy/blob/master/caddyhttp/httpserver/plugin.go#L587).
 
 List of GOOS and GOARCH possible values [here](https://github.com/golang/go/blob/master/src/go/build/syslist.go).
+

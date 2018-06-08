@@ -18,6 +18,7 @@ var pwd, buildDir, binDir, caddySourceDir string
 var goos, goarch string
 var plugins pluginsArray
 var dev bool
+var disableTelemetry bool
 
 // var avaiblePlugins bool = false
 
@@ -26,6 +27,7 @@ func init() {
 	flag.StringVar(&goarch, "goarch", "", "ARCH for which to build")
 	flag.Var(&plugins, "plugin", "Plugin to integrate in the build")
 	flag.BoolVar(&dev, "dev", false, "Build the current master branch")
+	flag.BoolVar(&disableTelemetry, "disable-telemetry", false, "Disable built-in telemetry")
 	// TODO
 	//flag.BoolVar(&avaiblePlugins, "listplugins", false, "Display all the available plugins")
 }
@@ -98,6 +100,11 @@ func main() {
 
 	if len(selectedPlugins) > 0 {
 		addPlugins(selectedPlugins)
+	}
+
+	if disableTelemetry {
+		caddyDisableTelemetry()
+		fmt.Println("Telemetry disabled")
 	}
 
 	fmt.Println("Building...")
@@ -196,6 +203,16 @@ func addPlugins(selectedPlugins []string) {
 	}
 
 	output := strings.Join(lines, "\n")
+	err = ioutil.WriteFile(caddySourceDir+"/caddy/caddymain/run.go", []byte(output), 0644)
+	check(err)
+}
+
+func caddyDisableTelemetry() {
+	fileRunGo, err := ioutil.ReadFile(caddySourceDir + "/caddy/caddymain/run.go")
+	check(err)
+
+	output := strings.Replace(string(fileRunGo), "const enableTelemetry = true", "const enableTelemetry = false", 1)
+
 	err = ioutil.WriteFile(caddySourceDir+"/caddy/caddymain/run.go", []byte(output), 0644)
 	check(err)
 }

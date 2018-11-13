@@ -211,7 +211,11 @@ func caddyDisableTelemetry() {
 	fileRunGo, err := ioutil.ReadFile(caddySourceDir + "/caddy/caddymain/run.go")
 	check(err)
 
+	// Until Caddy v0.11.0
 	output := strings.Replace(string(fileRunGo), "const enableTelemetry = true", "const enableTelemetry = false", 1)
+
+	// From Caddy v0.11.1
+	output = strings.Replace(string(fileRunGo), "var EnableTelemetry = true", "var EnableTelemetry = false", 1)
 
 	err = ioutil.WriteFile(caddySourceDir+"/caddy/caddymain/run.go", []byte(output), 0644)
 	check(err)

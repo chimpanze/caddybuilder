@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Fabio Cagliero
+// Copyright (c) 2019 Fabio Cagliero
 // Use of this source code is governed by a MIT license found in the LICENSE file.
 
 package main

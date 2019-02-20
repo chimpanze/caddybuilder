@@ -31,4 +31,4 @@ You can find the list of compatible plugins [here](https://github.com/mholt/cadd
 
 List of GOOS and GOARCH possible values [here](https://github.com/golang/go/blob/master/src/go/build/syslist.go).
 
-Tested until Caddy v0.11.1
+Tested until Caddy v0.11.4

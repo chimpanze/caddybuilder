@@ -53,6 +53,7 @@ func main() {
 	os.Mkdir(binDir, 0755)
 
 	os.Setenv("GOPATH", buildDir)
+	os.Setenv("GODEBUG", os.Getenv("GODEBUG")+",tls13=1")
 
 	fmt.Println("Downloading caddy source code...")
 	cmd = exec.Command("go", "get", "github.com/mholt/caddy/caddy")
